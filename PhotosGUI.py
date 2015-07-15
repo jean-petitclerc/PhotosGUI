@@ -1,7 +1,7 @@
 __author__ = 'jean'
 
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QToolTip, QPushButton)
+from PyQt5.QtWidgets import QApplication, QWidget, QToolTip, QPushButton, QMessageBox, QDesktopWidget
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import QCoreApplication
 
@@ -21,8 +21,23 @@ class PhotosUI(QWidget):
 
         self.setGeometry(300, 300, 300, 220)
         self.setWindowTitle('Photos')
-        #self.setWindowIcon(QIcon('xxx.png'))
+        self.setWindowIcon(QIcon('camera_32.png'))
+        self.center()
         self.show()
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Quit?', 'Are you sure to quit?',
+                                     QMessageBox.Yes|QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 if __name__ == '__main__':
 
